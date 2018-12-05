@@ -1354,13 +1354,13 @@ fi
 %doc %{_docdir}/kamailio/modules/README.topos
 %doc %{_docdir}/kamailio/modules/README.cfgt
 
-%dir %attr(-,kamailio,kamailio) %{_sysconfdir}/kamailio
+%dir %attr(-,kamailio,daemon) %{_sysconfdir}/kamailio
 %config(noreplace) %{_sysconfdir}/kamailio/dictionary.kamailio
 %config(noreplace) %{_sysconfdir}/kamailio/kamailio.cfg
 %config(noreplace) %{_sysconfdir}/kamailio/kamctlrc
 %config(noreplace) %{_sysconfdir}/kamailio/pi_framework.xml
 %config(noreplace) %{_sysconfdir}/kamailio/tls.cfg
-%dir %attr(-,kamailio,kamailio) %{_sharedstatedir}/kamailio
+%dir %attr(-,kamailio,daemon) %{_sharedstatedir}/kamailio
 %if 0%{?suse_version}
 %{_fillupdir}/sysconfig.kamailio
 %else
