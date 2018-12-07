@@ -1184,13 +1184,12 @@ install -m644 pkg/kamailio/%{dist_name}/%{dist_version}/sipcapture.sysconfig \
 rm -f %{buildroot}%{_libdir}/kamailio/lib*.so
 
 %pre
-%if 0%{?suse_version}
-if ! /usr/bin/getent group daemon &>/dev/null; then
-    /usr/sbin/groupadd --gid 2 daemon &> /dev/null
-fi
-%endif
 if ! /usr/bin/id kamailio &>/dev/null; then
-       /usr/sbin/useradd -r -g daemon -s /bin/false -c "Kamailio daemon" -d %{_libdir}/kamailio kamailio || \
+       /usr/sbin/useradd --system \
+                         --user-group \
+                         --shell /bin/false \
+                         --comment "Kamailio SIP Server" \
+                         --home-dir %{_rundir}/kamailio kamailio || \
                 %logmsg "Unexpected error adding user \"kamailio\". Aborting installation."
 fi
 
@@ -1354,13 +1353,13 @@ fi
 %doc %{_docdir}/kamailio/modules/README.topos
 %doc %{_docdir}/kamailio/modules/README.cfgt
 
-%dir %attr(-,kamailio,daemon) %{_sysconfdir}/kamailio
+%dir %attr(-,kamailio,kamailio) %{_sysconfdir}/kamailio
 %config(noreplace) %{_sysconfdir}/kamailio/dictionary.kamailio
 %config(noreplace) %{_sysconfdir}/kamailio/kamailio.cfg
 %config(noreplace) %{_sysconfdir}/kamailio/kamctlrc
 %config(noreplace) %{_sysconfdir}/kamailio/pi_framework.xml
 %config(noreplace) %{_sysconfdir}/kamailio/tls.cfg
-%dir %attr(-,kamailio,daemon) %{_sharedstatedir}/kamailio
+%dir %attr(-,kamailio,kamailio) %{_sharedstatedir}/kamailio
 %if 0%{?suse_version}
 %{_fillupdir}/sysconfig.kamailio
 %else
